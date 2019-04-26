@@ -1,15 +1,14 @@
-from app import app
+from app import app, spider
 from flask import jsonify
-#!/usr/bin/python
+
+spider = spider.Spider()
+heros = spider.getHeros()
 
 
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    response = {
-        'msg': "sdasdasdas"
-    }
-    return jsonify(response)
+    return jsonify(heros)
 
 
 @app.route('/getMsg', methods=['GET'])
