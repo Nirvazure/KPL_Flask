@@ -5,7 +5,6 @@ from surprise import Dataset
 from surprise import Reader
 from surprise import KNNBaseline
 
-
 def read_user_names():
     file_name = 'u.user'
     rid_to_name = {}
