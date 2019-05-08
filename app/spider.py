@@ -27,11 +27,8 @@ class Spider:
         for item in items:
             hero = {}
             hero['name'] = str(item[0])
-            hero['flex'] = 3
             hero['src'] = "https://game.gtimg.cn/images/yxzj/img201606/heroimg/" + \
                 str(item[1])+"/"+str(item[1])+".jpg"
-            hero['color'] = "purple"
-            hero['rank'] = 1
             hero['type'] = hero_type[item[2]]
             hero['title'] = item[3]
 
