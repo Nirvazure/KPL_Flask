@@ -1,8 +1,6 @@
 from app import spider, app, db, models
 from flask import jsonify, render_template, url_for, request
 
-spider = spider.Spider()
-
 
 @app.route('/heros/<int:id>')
 def hero(id):
@@ -56,8 +54,6 @@ def search():
                            #    posts=posts
                            )
 
-# 只获取整型ID
-
 
 @app.route('/player/<int:player_id>')
 def show_post(player_id):
@@ -74,7 +70,9 @@ def api_articles():
 
 # @app.before_first_request
 # def create_db():
-#     heros = spider.getHeros()
+
+#     sp = spider.Spider()
+#     heros = sp.getHeros()
 #   # Recreate database each time for demo
 #   # db.drop_all()
 #     db.create_all()

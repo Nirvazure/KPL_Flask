@@ -1,14 +1,14 @@
 import urllib.request
 import json
 import os
+
+
 class Spider:
 
     def __init__(self):
         pass
 
     def getHeros(self)->list:
-        heros = []
-
         url = "http://pvp.qq.com/web201605/js/herolist.json"
 
         v_herolist_url = urllib.request.urlopen(url)
