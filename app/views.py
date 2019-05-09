@@ -4,39 +4,6 @@ from flask import jsonify, render_template, url_for, request
 spider = spider.Spider()
 
 
-# @app.before_first_request
-# def create_db():
-#     heros = spider.getHeros()
-#   # Recreate database each time for demo
-#   # db.drop_all()
-#     db.create_all()
-#     for hero in heros:
-#         herotemp = models.Hero(hero['name'], hero['title'],
-#                                hero['type'], hero['src'])
-#         db.session.add(herotemp)
-#     db.session.commit()
-# 创建表格、插入数据,第一次请求完成，数据库创建好之后不需要了
-
-# guestes = [models.User('guest1', 'guest1@example.com'),
-#            models.User('guest2', 'guest2@example.com'),
-#            models.User('guest3', 'guest3@example.com'),
-#            models.User('guest4', 'guest4@example.com')]
-# db.session.add_all(guestes)
-
-
-heros1 = spider.getHeros()
-
-heros = models.Hero.query.all()
-for hero in heros:
-    print(hero.hero_name)
-
-
-# @app.route('/heros')
-# def heros():
-#     heros = models.Hero.query.all()
-#     return "<br>".join(["{0}: {1}:{2}:{3}".format(hero.hero_name, hero.hero_title, hero.hero_type, hero.hero_img) for hero in heros])
-
-
 @app.route('/heros/<int:id>')
 def hero(id):
     hero = models.Hero.query.filter_by(id=id).one()
@@ -52,10 +19,16 @@ def index():
 @app.route('/heros', methods=['GET', 'POST', 'PATCH', 'PUT', 'DELETE'])
 def api_hero():
     if request.method == 'GET':
-
-        # heros = models.Hero.query.all()
-        # return "<br>".join(["{0}: {1}:{2}:{3}".format(hero.hero_name, hero.hero_title, hero.hero_type, hero.hero_img) for hero in heros])
-        return jsonify(heros1)
+        heros = []
+        items = models.Hero.query.all()
+        for item in items:
+            hero = {}
+            hero['name'] = item.hero_name
+            hero['src'] = item.hero_img
+            hero['type'] = item.hero_type
+            hero['title'] = item.hero_title
+            heros.append(hero)
+        return jsonify(heros)
 
     elif request.method == 'POST':
         # return jsonify(heros1)
@@ -96,3 +69,22 @@ def show_post(player_id):
 @app.route('/articles')
 def api_articles():
     return 'List of ' + url_for('api_articles')
+
+# @app.before_first_request
+# def create_db():
+#     heros = spider.getHeros()
+#   # Recreate database each time for demo
+#   # db.drop_all()
+#     db.create_all()
+#     for hero in heros:
+#         herotemp = models.Hero(hero['name'], hero['title'],
+#                                hero['type'], hero['src'])
+#         db.session.add(herotemp)
+#     db.session.commit()
+# 创建表格、插入数据,第一次请求完成，数据库创建好之后不需要了
+
+# guestes = [models.User('guest1', 'guest1@example.com'),
+#            models.User('guest2', 'guest2@example.com'),
+#            models.User('guest3', 'guest3@example.com'),
+#            models.User('guest4', 'guest4@example.com')]
+# db.session.add_all(guestes)
