@@ -23,10 +23,11 @@ def api_hero():
         items = models.Hero.query.all()
         for item in items:
             hero = {}
-            hero['name'] = item.hero_name
-            hero['src'] = item.hero_img
+            hero['id'] = item.id
+            hero['name'] = item.name
+            hero['img'] = item.img
             hero['type'] = item.hero_type
-            hero['title'] = item.hero_title
+            hero['title'] = item.title
             heros.append(hero)
         return jsonify(heros)
 
@@ -70,6 +71,7 @@ def show_post(player_id):
 def api_articles():
     return 'List of ' + url_for('api_articles')
 
+
 # @app.before_first_request
 # def create_db():
 #     heros = spider.getHeros()
@@ -77,8 +79,8 @@ def api_articles():
 #   # db.drop_all()
 #     db.create_all()
 #     for hero in heros:
-#         herotemp = models.Hero(hero['name'], hero['title'],
-#                                hero['type'], hero['src'])
+#         herotemp = models.Hero(
+#             hero['ename'], hero['cname'], hero['title'], hero['hero_type'])
 #         db.session.add(herotemp)
 #     db.session.commit()
 # 创建表格、插入数据,第一次请求完成，数据库创建好之后不需要了
