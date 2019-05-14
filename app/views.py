@@ -2,32 +2,61 @@ from app import spider, app, db, models
 from flask import jsonify, render_template, url_for, request
 
 
-@app.route('/heros/<int:id>')
-def hero(id):
-    hero = models.Hero.query.filter_by(id=id).one()
-    return "<br>".join(["{0}: {1}:{2}:{3}".format(hero.hero_name, hero.hero_title, hero.hero_type, hero.hero_img)])
-
-
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     return 'KPL'
 
 
-@app.route('/heros', methods=['GET', 'POST', 'PATCH', 'PUT', 'DELETE'])
-def api_hero():
+@app.route('/recommand', methods=['GET'])
+def api_recommand():
+    pass
+
+
+@app.route('/heros/type<int:hero_type>', methods=['GET'])
+@app.route('/heros', methods=['GET'])
+def api_heros(hero_type=None):
     if request.method == 'GET':
-        heros = []
-        items = models.Hero.query.all()
-        for item in items:
-            hero = {}
-            hero['id'] = item.id
-            hero['name'] = item.name
-            hero['img'] = item.img
-            hero['type'] = item.hero_type
-            hero['title'] = item.title
-            heros.append(hero)
+        if(hero_type != None):
+            heros = []
+            type_dict = {1: '战士', 2: '法师', 3: '坦克',
+                         4: '刺客', 5: '射手', 6: '辅助', }
+            items = models.Hero.query.filter_by(
+                hero_type=type_dict[hero_type]).all()
+            for item in items:
+                hero = {}
+                hero['id'] = item.id
+                hero['name'] = item.name
+                hero['img'] = item.img
+                hero['type'] = item.hero_type
+                hero['title'] = item.title
+                heros.append(hero)
+        else:
+            heros = []
+            items = models.Hero.query.all()
+            for item in items:
+                hero = {}
+                hero['id'] = item.id
+                hero['name'] = item.name
+                hero['img'] = item.img
+                hero['type'] = item.hero_type
+                hero['title'] = item.title
+                heros.append(hero)
         return jsonify(heros)
+
+
+@app.route('/heros/<int:hero_id>', methods=['GET', 'POST', 'PATCH', 'PUT', 'DELETE'])
+def api_hero(hero_id):
+
+    if request.method == 'GET':
+        item = models.Hero.query.filter_by(id=hero_id).one()
+        hero = {}
+        hero['id'] = item.id
+        hero['name'] = item.name
+        hero['img'] = item.img
+        hero['type'] = item.hero_type
+        hero['title'] = item.title
+        return jsonify(hero)
 
     elif request.method == 'POST':
         # return jsonify(heros1)
@@ -55,36 +84,6 @@ def search():
                            )
 
 
-@app.route('/player/<int:player_id>')
-def show_post(player_id):
-    # show the post with the given id, the id is an integer
-    return 'Post %d' % (player_id+1)
-
-# url_for生成匹配url
-
-
 @app.route('/articles')
 def api_articles():
     return 'List of ' + url_for('api_articles')
-
-
-# @app.before_first_request
-# def create_db():
-
-#     sp = spider.Spider()
-#     heros = sp.getHeros()
-#   # Recreate database each time for demo
-#   # db.drop_all()
-#     db.create_all()
-#     for hero in heros:
-#         herotemp = models.Hero(
-#             hero['ename'], hero['cname'], hero['title'], hero['hero_type'])
-#         db.session.add(herotemp)
-#     db.session.commit()
-# 创建表格、插入数据,第一次请求完成，数据库创建好之后不需要了
-
-# guestes = [models.User('guest1', 'guest1@example.com'),
-#            models.User('guest2', 'guest2@example.com'),
-#            models.User('guest3', 'guest3@example.com'),
-#            models.User('guest4', 'guest4@example.com')]
-# db.session.add_all(guestes)
