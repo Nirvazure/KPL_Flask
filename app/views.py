@@ -8,9 +8,11 @@ def index():
     return 'KPL'
 
 
-@app.route('/recommand', methods=['GET'])
+@app.route('/recommands', methods=['GET'])
 def api_recommand():
-    pass
+    sp = spider.Spider()
+    heros = sp.getHeros()
+    return jsonify(heros[0:4])
 
 
 @app.route('/heros/type<int:hero_type>', methods=['GET'])
@@ -87,3 +89,18 @@ def search():
 @app.route('/articles')
 def api_articles():
     return 'List of ' + url_for('api_articles')
+
+# @app.before_first_request
+# def create_db():
+
+#     sp = spider.Spider()
+#     heros = sp.getHeros()
+#   # Recreate database each time for demo
+#   # db.drop_all()
+#     db.create_all()
+#     for hero in heros:
+#         herotemp = models.Hero(
+#             hero['ename'], hero['cname'], hero['title'], hero['hero_type'])
+#         db.session.add(herotemp)
+#     db.session.commit()
+# 创建表格、插入数据,第一次请求完成，数据库创建好之后不需要了
