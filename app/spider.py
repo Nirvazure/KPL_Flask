@@ -1,6 +1,8 @@
 import urllib.request
 import json
 import os
+from haishoku.haishoku import Haishoku
+from webcolors import rgb_to_hex
 
 
 class Spider:
@@ -15,4 +17,19 @@ class Spider:
         v_herolist = v_herolist_url.read().decode('utf-8')
         v_hero = v_herolist.encode('utf8')[3:].decode('utf-8')
         heros = json.loads(v_hero)
+        for hero in heros:
+            color = sp.getColor(hero['ename'])
+            hero['color'] = color
         return heros
+
+    def getColor(self, ename):
+        img_url = "https://game.gtimg.cn/images/yxzj/img201606/heroimg/" + \
+            str(ename) + "/" + str(ename) + ".jpg"
+        haishoku = Haishoku.loadHaishoku(img_url)
+        color = rgb_to_hex(haishoku.dominant)
+        return color
+
+
+sp = Spider()
+heros = sp.getHeros()
+print(heros)

@@ -32,6 +32,7 @@ def api_heros(hero_type=None):
                 hero['img'] = item.img
                 hero['type'] = item.hero_type
                 hero['title'] = item.title
+                hero['color'] = item.color
                 heros.append(hero)
         else:
             heros = []
@@ -43,6 +44,7 @@ def api_heros(hero_type=None):
                 hero['img'] = item.img
                 hero['type'] = item.hero_type
                 hero['title'] = item.title
+                hero['color'] = item.color
                 heros.append(hero)
         return jsonify(heros)
 
@@ -58,6 +60,7 @@ def api_hero(hero_id):
         hero['img'] = item.img
         hero['type'] = item.hero_type
         hero['title'] = item.title
+        hero['color'] = item.color
         return jsonify(hero)
 
     elif request.method == 'POST':
@@ -90,6 +93,7 @@ def search():
 def api_articles():
     return 'List of ' + url_for('api_articles')
 
+
 # @app.before_first_request
 # def create_db():
 
@@ -100,7 +104,7 @@ def api_articles():
 #     db.create_all()
 #     for hero in heros:
 #         herotemp = models.Hero(
-#             hero['ename'], hero['cname'], hero['title'], hero['hero_type'])
+#             hero['ename'], hero['cname'], hero['title'], hero['hero_type'], hero['color'])
 #         db.session.add(herotemp)
 #     db.session.commit()
 # 创建表格、插入数据,第一次请求完成，数据库创建好之后不需要了

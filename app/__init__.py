@@ -6,5 +6,5 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 CORS(app, supports_credentials=True)
 app.config['JSON_AS_ASCII'] = False
-# from app import views
-from app import view1
+from app import views
+# from app import view1
