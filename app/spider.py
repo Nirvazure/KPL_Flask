@@ -28,8 +28,3 @@ class Spider:
         haishoku = Haishoku.loadHaishoku(img_url)
         color = rgb_to_hex(haishoku.dominant)
         return color
-
-
-sp = Spider()
-heros = sp.getHeros()
-print(heros)

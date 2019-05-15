@@ -8,11 +8,11 @@ def index():
     return 'KPL'
 
 
-@app.route('/recommands', methods=['GET'])
-def api_recommand():
-    sp = spider.Spider()
-    heros = sp.getHeros()
-    return jsonify(heros[0:4])
+# @app.route('/recommands', methods=['GET'])
+# def api_recommand():
+#     sp = spider.Spider()
+#     heros = sp.getHeros()
+#     return jsonify(heros[0:4])
 
 
 @app.route('/heros/type<int:hero_type>', methods=['GET'])
