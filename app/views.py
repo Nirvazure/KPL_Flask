@@ -15,7 +15,7 @@ def index():
 #     return jsonify(heros[0:4])
 
 
-@app.route('/heros/type<int:hero_type>', methods=['GET'])
+@app.route('/herostype=<int:hero_type>', methods=['GET'])
 @app.route('/heros', methods=['GET'])
 def api_heros(hero_type=None):
     if request.method == 'GET':
@@ -77,6 +77,41 @@ def api_hero(hero_id):
         return "ECHO: DELETE"
 
 
+@app.route('/rank', methods=['GET', 'POST'])
+def api_rank():
+
+    ranks = [{'player': 1, 'hero': 105, 'rank': 3},
+             {'player': 1, 'hero': 106, 'rank': 4},
+             {'player': 1, 'hero': 107, 'rank': 7},
+             {'player': 2, 'hero': 107, 'rank': 7}]
+
+    if request.method == 'GET':
+        email
+        p_id = request.args.get('p_id')
+        h_id = request.args.get('h_id')
+        rank = request.args.get('rank')
+        print(p_id, h_id, rank)
+        rank_record = models.Rank(int(p_id), int(h_id), int(rank))
+        db.session.add(rank_record)
+        db.session.commit()
+        # a = [rank for rank in ranks if rank['player']
+        #      == p_id and rank['hero'] == h_id]
+        # print(a['rank'])
+        # print(p_id, h_id)
+        # return jsonify(a)
+        return "hhh"
+
+    elif request.method == 'POST':
+        p_id = request.args.get('p_id')
+        h_id = request.args.get('h_id')
+        rank = request.args.get('rank')
+        print(p_id, h_id, rank)
+        rank_record = models.Rank(int(p_id), int(h_id), int(rank))
+        db.session.add(rank_record)
+        db.session.commit()
+        return "hhhh"
+
+
 @app.route('/search')
 def search():
     user = {'nickname': 'Miguel'}  # fake user
@@ -94,17 +129,24 @@ def api_articles():
     return 'List of ' + url_for('api_articles')
 
 
-# @app.before_first_request
-# def create_db():
+@app.before_first_request
+def create_db():
 
-#     sp = spider.Spider()
-#     heros = sp.getHeros()
-#   # Recreate database each time for demo
-#   # db.drop_all()
-#     db.create_all()
-#     for hero in heros:
-#         herotemp = models.Hero(
-#             hero['ename'], hero['cname'], hero['title'], hero['hero_type'], hero['color'])
-#         db.session.add(herotemp)
-#     db.session.commit()
-# 创建表格、插入数据,第一次请求完成，数据库创建好之后不需要了
+    sp = spider.Spider()
+    heros = sp.getHeros()
+  # Recreate database each time for demo
+    db.drop_all()
+    db.create_all()
+    players = [{'name': "SandM、影", 'summary': '上单霸主'}, {'name': "HyBarain", 'summary': '野区主宰'}, {
+        'name': "Nirvazure", 'summary': '中单法王'}, {'name': "甩葱的大叔", 'summary': '团队后盾'}, {'name': "TinyRed", 'summary': '国服AD'}]
+    for hero in heros:
+        herotemp = models.Hero(
+            hero['ename'], hero['cname'], hero['title'], hero['hero_type'], hero['color'])
+        db.session.add(herotemp)
+    for player in players:
+        playertemp = models.Player(player['name'], player['summary'])
+        db.session.add(playertemp)
+    db.session.commit()
+
+
+# 创建表格、插入数据, 第一次请求完成，数据库创建好之后不需要了

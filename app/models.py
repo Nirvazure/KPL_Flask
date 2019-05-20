@@ -1,17 +1,23 @@
 from app import db
 
 
-class User(db.Model):
+class Player(db.Model):
+
+    __tablename__ = 'player'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True)
-    email = db.Column(db.String(120), unique=True)
+    summary = db.Column(db.String(240))
 
-    def __init__(self, name, email):
+    def __init__(self, name, summary):
         self.name = name
-        self.email = email
+        self.summary = summary
 
 
 class Hero(db.Model):
+
+    __tablename__ = 'hero'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True)
     title = db.Column(db.String(80), unique=True)
@@ -29,3 +35,17 @@ class Hero(db.Model):
         self.img = "https://game.gtimg.cn/images/yxzj/img201606/heroimg/" + \
             str(id)+"/"+str(id)+".jpg"
         self.color = color
+
+
+class Rank(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    p_id = db.Column(db.Integer, db.ForeignKey('player.id'))
+    h_id = db.Column(db.Integer, db.ForeignKey('hero.id'))
+    rank = db.Column(db.Integer)
+    level = db.Column(db.Integer)
+
+    def __init__(self, p_id, h_id, rank):
+        self.p_id = p_id
+        self.h_id = h_id
+        self.rank = rank

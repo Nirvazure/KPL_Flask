@@ -18,7 +18,7 @@ class Spider:
         v_hero = v_herolist.encode('utf8')[3:].decode('utf-8')
         heros = json.loads(v_hero)
         for hero in heros:
-            color = sp.getColor(hero['ename'])
+            color = self.getColor(hero['ename'])
             hero['color'] = color
         return heros
 
