@@ -159,24 +159,24 @@ def api_articles():
     return 'Hello World!'
 
 
-@app.before_first_request
-def create_db():
+# @app.before_first_request
+# def create_db():
 
-    sp = spider.Spider()
-    heros = sp.getHeros()
-  # Recreate database each time for demo
-    db.drop_all()
-    db.create_all()
-    players = [{'name': "SandM、影", 'summary': '上单霸主'}, {'name': "HyBarain", 'summary': '野区主宰'}, {
-        'name': "Nirvazure", 'summary': '中单法王'}, {'name': "甩葱的大叔", 'summary': '团队后盾'}, {'name': "TinyRed", 'summary': '国服AD'}]
-    for hero in heros:
-        herotemp = models.Hero(
-            hero['ename'], hero['cname'], hero['title'], hero['hero_type'], hero['color'])
-        db.session.add(herotemp)
-    for player in players:
-        playertemp = models.Player(player['name'], player['summary'])
-        db.session.add(playertemp)
-    db.session.commit()
+#     sp = spider.Spider()
+#     heros = sp.getHeros()
+#   # Recreate database each time for demo
+#     db.drop_all()
+#     db.create_all()
+#     players = [{'name': "SandM、影", 'summary': '上单霸主'}, {'name': "HyBarain", 'summary': '野区主宰'}, {
+#         'name': "Nirvazure", 'summary': '中单法王'}, {'name': "甩葱的大叔", 'summary': '团队后盾'}, {'name': "TinyRed", 'summary': '国服AD'}]
+#     for hero in heros:
+#         herotemp = models.Hero(
+#             hero['ename'], hero['cname'], hero['title'], hero['hero_type'], hero['color'])
+#         db.session.add(herotemp)
+#     for player in players:
+#         playertemp = models.Player(player['name'], player['summary'])
+#         db.session.add(playertemp)
+#     db.session.commit()
 
 
 # 创建表格、插入数据, 第一次请求完成，数据库创建好之后不需要了
