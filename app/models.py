@@ -1,13 +1,22 @@
 from app import db
 
+# player_hero = db.Table('player_hero',
+#                        db.Column('player_id', db.Integer, db.ForeignKey(
+#                            'player.id'), primary_key=True),
+#                        db.Column('hero_id', db.Integer, db.ForeignKey(
+#                            'hero.id'), primary_key=True),
+#                        db.Column('rank', db.Integer))
+
 
 class Player(db.Model):
 
     __tablename__ = 'player'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True,  autoincrement=True)
     name = db.Column(db.String(80), unique=True)
     summary = db.Column(db.String(240))
+    # player_hero = db.relationship('Hero', secondary=player_hero,
+    #                               backref=db.backref('players'))
 
     def __init__(self, name, summary):
         self.name = name
@@ -39,9 +48,8 @@ class Hero(db.Model):
 
 class Rank(db.Model):
 
-    id = db.Column(db.Integer, primary_key=True)
-    p_id = db.Column(db.Integer, db.ForeignKey('player.id'))
-    h_id = db.Column(db.Integer, db.ForeignKey('hero.id'))
+    p_id = db.Column(db.Integer, db.ForeignKey('player.id'),  primary_key=True)
+    h_id = db.Column(db.Integer, db.ForeignKey('hero.id'), primary_key=True)
     rank = db.Column(db.Integer)
     level = db.Column(db.Integer)
 

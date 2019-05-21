@@ -1,0 +1,9 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "C:\\Users\\Administrator\\Desktop\\KPL_Flask\\kpl.db",
+            "dialect": "SQLite",
+            "name": "kpl"
+        }
+    ]
+}

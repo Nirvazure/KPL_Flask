@@ -81,20 +81,22 @@ def api_hero(hero_id):
 def api_rank():
 
     if request.method == 'GET':
-        p_id = request.args.get('p_id')
-        h_id = request.args.get('h_id')
-        rank = request.args.get('rank')
+        player = request.args.get('p_id')
+        # hero = request.args.get('h_id')
+        # rank = request.args.get('rank')
         # 如果不为空才插入
-        print(p_id, h_id, rank)
-        rank_record = models.Rank(int(p_id), int(h_id), int(rank))
-        db.session.add(rank_record)
-        db.session.commit()
+        records = []
+        rank_records = models.Rank.query.filter_by(p_id=player).all()
+        for rank_record in rank_records:
+            record = {}
+            record['h_id'] = rank_record.h_id
+            record['rank'] = rank_record.rank
+            record['level'] = rank_record.level
+            records.append(record)
+        return jsonify(records)
+        # print(rank_record)
         # a = [rank for rank in ranks if rank['player']
         #      == p_id and rank['hero'] == h_id]
-        # print(a['rank'])
-        # print(p_id, h_id)
-        # return jsonify(a)
-        return "hhh"
 
     elif request.method == 'POST':
         # 不明白form为什么不可以
@@ -120,29 +122,61 @@ def search():
                            )
 
 
-@app.route('/articles')
+@app.route('/a')
 def api_articles():
-    return 'List of ' + url_for('api_articles')
+    # player1 = models.Player(name='laipanchao', summary='sadsd')
+    p1 = models.Player.query.filter_by(id=6).first()
+    # hero2 = models.Hero.query.filter_by(id=107).first()
+    # player1.player_hero.append(hero1)
+    # player1.player_hero.append(hero2)
+    a = p1.player_hero
+    for i in a:
+        print(i, type(i))
+        # i.rank = 3
+    # article1 = Article(title='aaa')
+    # article2 = Article(title='bbb')
+    #
+    # tag1 = Tag(name='111')
+    # tag2 = Tag(name='222')
+    #
+    # article1.tags.append(tag1)
+    # article1.tags.append(tag2)
+    #
+    # article2.tags.append(tag1)
+    # article2.tags.append(tag2)
+    #
+    # db.session.add(player1)
+    # db.session.add(player2)
+    # db.session.add(tag1)
+    # db.session.add(tag2)
+    #
+    db.session.commit()
+
+    # article1 = Article.query.filter(Article.title == 'aaa').first()
+    # tags = article1.tags
+    # for tag in tags:
+    #     print(tag.name)
+    return 'Hello World!'
 
 
-# @app.before_first_request
-# def create_db():
+@app.before_first_request
+def create_db():
 
-#     sp = spider.Spider()
-#     heros = sp.getHeros()
-#   # Recreate database each time for demo
-#     db.drop_all()
-#     db.create_all()
-#     players = [{'name': "SandM、影", 'summary': '上单霸主'}, {'name': "HyBarain", 'summary': '野区主宰'}, {
-#         'name': "Nirvazure", 'summary': '中单法王'}, {'name': "甩葱的大叔", 'summary': '团队后盾'}, {'name': "TinyRed", 'summary': '国服AD'}]
-#     for hero in heros:
-#         herotemp = models.Hero(
-#             hero['ename'], hero['cname'], hero['title'], hero['hero_type'], hero['color'])
-#         db.session.add(herotemp)
-#     for player in players:
-#         playertemp = models.Player(player['name'], player['summary'])
-#         db.session.add(playertemp)
-#     db.session.commit()
+    sp = spider.Spider()
+    heros = sp.getHeros()
+  # Recreate database each time for demo
+    db.drop_all()
+    db.create_all()
+    players = [{'name': "SandM、影", 'summary': '上单霸主'}, {'name': "HyBarain", 'summary': '野区主宰'}, {
+        'name': "Nirvazure", 'summary': '中单法王'}, {'name': "甩葱的大叔", 'summary': '团队后盾'}, {'name': "TinyRed", 'summary': '国服AD'}]
+    for hero in heros:
+        herotemp = models.Hero(
+            hero['ename'], hero['cname'], hero['title'], hero['hero_type'], hero['color'])
+        db.session.add(herotemp)
+    for player in players:
+        playertemp = models.Player(player['name'], player['summary'])
+        db.session.add(playertemp)
+    db.session.commit()
 
 
 # 创建表格、插入数据, 第一次请求完成，数据库创建好之后不需要了
