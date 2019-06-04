@@ -1,11 +1,13 @@
 from app import spider, app, db, models
-from flask import jsonify, render_template, url_for, request
+from flask import jsonify, render_template, url_for, request, redirect
+
+# 加入重定向的机制，302是自己设定的重定向状态码注解
 
 
 @app.route('/')
-@app.route('/index', methods=['GET', 'POST'])
-def index():
-    return 'KPL'
+@app.route('/index')
+def index()->'302':
+    return redirect('/heros')
 
 
 # @app.route('/recommands', methods=['GET'])

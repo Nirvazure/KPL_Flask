@@ -1,5 +1,6 @@
-#!flask/bin/python
 from app import app
 
-# app.run()
-app.run(debug=True)
+#加入这个if语句，保证本地和云端的部署都能正确执行我们的代码
+
+if __name__=="__main__":
+    app.run(debug=True)
