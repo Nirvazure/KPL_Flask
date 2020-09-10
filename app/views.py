@@ -10,11 +10,11 @@ def index()->'302':
     return redirect('/heros')
 
 
-# @app.route('/recommands', methods=['GET'])
-# def api_recommand():
-#     sp = spider.Spider()
-#     heros = sp.getHeros()
-#     return jsonify(heros[0:4])
+@app.route('/recommands', methods=['GET'])
+def api_recommand():
+    sp = spider.Spider()
+    heros = sp.getHeros()
+    return jsonify(heros[0:4])
 
 
 @app.route('/herostype=<int:hero_type>', methods=['GET'])
