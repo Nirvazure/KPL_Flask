@@ -7,7 +7,7 @@ from flask import jsonify, render_template, url_for, request, redirect
 @app.route('/')
 @app.route('/index')
 def index()->'302':
-    return redirect('/heros')
+    return redirect('/recommands')
 
 
 @app.route('/recommands', methods=['GET'])

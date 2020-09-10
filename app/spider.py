@@ -15,7 +15,7 @@ class Spider:
 
         v_herolist_url = urllib.request.urlopen(url)
         v_herolist = v_herolist_url.read().decode('utf-8')
-        v_hero = v_herolist.encode('utf8')[3:].decode('utf-8')
+        v_hero = v_herolist.encode('utf8').decode('utf-8')
         heros = json.loads(v_hero)
         for hero in heros:
             color = self.getColor(hero['ename'])
